@@ -1,3 +1,5 @@
+use std::net::{SocketAddr, IpAddr, Ipv4Addr};
+
 use cratetorrent::prelude::*;
                                                                              
 #[tokio::main]
@@ -9,10 +11,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // parse torrent metainfo and start the download
     let metainfo = tokio::fs::read("./var/torrents/100MB.bin.torrent").await?;
     let metainfo = Metainfo::from_bytes(&metainfo)?;
-    let torrent_id = engine.create_torrent(TorrentParams {
+    let _torrent_id = engine.create_torrent(TorrentParams {
         metainfo,
         // tell the engine to assign a randomly chosen free port
-        listen_addr: None,
+        listen_addr: Some(SocketAddr::new(IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0)), 6969)),
         // here we could specify peers we knew of that we'd want
         // to connect to
         mode: Mode::Download { seeds: Vec::new() },
