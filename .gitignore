@@ -4,3 +4,4 @@ scratch*
 tests/assets
 flamegraph*
 perf*
+.DS_Store
