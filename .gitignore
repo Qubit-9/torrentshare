@@ -6,3 +6,5 @@ flamegraph*
 perf*
 .DS_Store
 tests/
+.rustc_info.json
+var/
