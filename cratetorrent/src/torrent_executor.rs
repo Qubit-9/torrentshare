@@ -2,18 +2,21 @@ use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 
 use cratetorrent::prelude::*;
 
-pub async fn execute_torrent(file_job:String) -> Result<(), Box<dyn std::error::Error>> {
+pub async fn execute_torrent(torrent_file_path: &String) -> Result<String, Box<dyn std::error::Error>> {
     // spawn the engine with a default config
     let conf = Conf::new("/home/admin/git/cratetorrent/var/downloads");
     let (engine, mut alert_rx) = engine::spawn(conf)?;
     // parse torrent metainfo and start the download
-    let metainfo = tokio::fs::read("/home/admin/git/cratetorrent/var/torrents/100mb_ip4_tracker.torrent").await?;
+    let metainfo = tokio::fs::read(torrent_file_path).await?;
 
     let metainfo = Metainfo::from_bytes(&metainfo)?;
+
+    let file_name = metainfo.name.clone();
+
     let _torrent_id = engine.create_torrent(TorrentParams {
         metainfo,
         // tell the engine to assign a randomly chosen free port
-        listen_addr: Some(SocketAddr::new(IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0)), 6969)),
+        listen_addr: Some(SocketAddr::new(IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0)), 4200)),
         // here we could specify peers we knew of that we'd want
         // to connect to
         mode: Mode::Download { seeds: vec![SocketAddr::new(IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0)), 2706)] },
@@ -45,5 +48,5 @@ pub async fn execute_torrent(file_job:String) -> Result<(), Box<dyn std::error::
     // as well as wait for peer connections to cleanly shut down.
     engine.shutdown().await?;
 
-    Ok(())
+    Ok(file_name)
 }
