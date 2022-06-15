@@ -8,3 +8,11 @@ perf*
 tests/
 .rustc_info.json
 var/
+terraform/.terraform
+.vscode/targets.log
+.vscode/configurationCache.log
+.vscode/settings.json
+terraform/modules/networking/.terraform/providers/registry.terraform.io/hashicorp/aws/4.18.0/darwin_arm64/terraform-provider-aws_v4.18.0_x5
+terraform/modules/networking/terraform.tfstate
+terraform/terraform.tfstate
+
