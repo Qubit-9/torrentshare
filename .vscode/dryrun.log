@@ -1,0 +1,8 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/marc/git/torrentshare'
+docker stop hello-world
+docker image rm nginxdemos/hello
+rm -r ./var/downloads/*
+rm -r ./var/torrents/*
+make: Leaving directory `/Users/marc/git/torrentshare'
+ 
