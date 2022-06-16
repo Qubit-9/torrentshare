@@ -22,3 +22,8 @@ variable "vpc_cidr" {
    description = "CIDR for VPC"
    type = string
 }
+
+variable "nr_network_nodes" {
+   description = "Amount of network nodes"
+   type = set(string)
+}

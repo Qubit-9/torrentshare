@@ -1,0 +1,24 @@
+all:
+  hosts:
+  %{for srv in server}
+    ${srv.hostname}:
+      ansible_host: ${srv.ip}
+      ip: ${srv.private_ip}
+      access_ip: ${srv.private_ip}
+
+  %{ endfor ~}
+
+masters:
+  hosts:
+    master:
+
+nodes:
+  hosts:
+    worker1:
+    worker2:
+
+cluster:
+  children:
+    masters:
+    nodes:
+

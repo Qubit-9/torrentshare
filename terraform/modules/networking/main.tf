@@ -5,9 +5,7 @@ module "vpc" {
   azs                              = var.availability_zones
   private_subnets                  = var.private_subnets
   public_subnets                   = var.public_subnets
-  create_database_subnet_group     = false
   enable_nat_gateway               = true
-  single_nat_gateway               = true
 }
 
 module "public_network_sg" {
@@ -19,6 +17,7 @@ module "public_network_sg" {
 
   ingress_cidr_blocks      = ["0.0.0.0/0"]
   ingress_rules            = ["ssh-tcp",  "https-443-tcp", "http-8080-tcp"]
+  egress_rules = ["all-all"]
 
 }
 
@@ -31,16 +30,27 @@ module "private_network_sg" {
 
   ingress_cidr_blocks      = concat(var.public_subnets, var.private_subnets)
   ingress_rules            = ["all-all"]
+  egress_rules = ["all-all"]
+
 }
 
 resource "aws_network_interface" "private_network_interface" {
+
   subnet_id       = module.vpc.private_subnets[0]
   security_groups = [module.private_network_sg.security_group_id]
 
 }
 
-resource "aws_network_interface" "public_network_interface" {
+resource "aws_network_interface" "headnode_network_interface" {
+  #temporary as long as all nodes public
   subnet_id       = module.vpc.public_subnets[0]
   security_groups = [module.public_network_sg.security_group_id]
+
+}
+resource "aws_network_interface" "node_network_interface" {
+  #temporary as long as all nodes public net work to allow ssh and free internal flow
+  for_each = var.nr_network_nodes
+  subnet_id       = module.vpc.public_subnets[0]
+  security_groups = [module.public_network_sg.security_group_id, module.private_network_sg.security_group_id]
 
 }

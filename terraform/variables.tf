@@ -7,7 +7,12 @@ variable "image_ami" {
     type = string
 }
 
-variable "instance_type" {
+variable "headnode_instance_type" {
+    description = "Instance Type to Deploy"
+    type = string
+}
+
+variable "node_instance_type" {
     description = "Instance Type to Deploy"
     type = string
 }
@@ -46,4 +51,12 @@ variable "availability_zones" {
    type = string
  }
 
+ variable "nr_network_nodes" {
+   description = "Amount of network nodes"
+   type = number
+}
+
+#variable "server_ssh_key" {
+#  sensitive = true
+#}
 

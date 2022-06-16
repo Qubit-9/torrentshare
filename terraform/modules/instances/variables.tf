@@ -3,7 +3,12 @@ variable "image_ami" {
     type = string
 }
 
-variable "instance_type" {
+variable "headnode_instance_type" {
+    description = "Instance Type to Deploy"
+    type = string
+}
+
+variable "node_instance_type" {
     description = "Instance Type to Deploy"
     type = string
 }
@@ -23,7 +28,21 @@ variable "public_network_sg_id" {
    type = string
 }
 
-variable "network_interfaces" {
-    description = "Network Interfaces to attach"
+variable "headnode_network_interface" {
+    description = "Network Interfaces to attach to Headnode"
+    type = string
+} 
+
+variable "node_network_interfaces" {
+    description = "Network Interfaces to attach to Network Nodes"
     type = list
 } 
+
+variable "nr_network_nodes" {
+   description = "Amount of network nodes"
+   type = set(string)
+}
+
+#" {
+#  sensitive = true
+#}
