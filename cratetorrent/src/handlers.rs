@@ -29,6 +29,8 @@ pub async fn handle_download_file(
 
     Ok(StatusCode::OK)
 }
+
+//TODO run command from incoming request
 fn run_docker_cmds(full_file_path: &String) 
 {
     let image_load_status = Command::new("docker")
